@@ -1,0 +1,97 @@
+1.Two sum
+
+https://leetcode.com/problems/two-sum/description/
+
+1st Approach - Brute Force
+- Use two for loops two check if the sum of two elements is equal to the target sum
+- Time Complexity : O(n^2) Space Complexity : O(1)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int i,j,n ;
+        int[] pair = new int[2] ;
+        
+        n = nums.length ;
+        
+        for(i=0;i<n;i++){
+            for(j=0;j<n && j!=i;j++){
+                if(target==(nums[i]+nums[j])){
+                    pair[0] = i ;
+                    pair[1] = j ;
+                    return pair ;
+                }
+            }
+        }
+        return pair ;
+    }
+}
+
+2nd Approach - Two Pointers
+- As the order of the elements doesn't matter here so we can sort the array
+- We need to return the indexes of the two elements so we will store the whole array to find the indexes later
+- After sorting the array use two opposite directional pointers to find the two elements
+- Time Complexity : O(n) Space Complexity : O(n)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int i,j,p=0,q=0,n,sum ;
+        n = nums.length ;
+        int[] nums1 = new int[n] ;
+        int[] pair = new int[2] ;
+        
+        for(i=0;i<n;i++){
+            nums1[i] = nums[i] ;
+        }
+        
+        Arrays.sort(nums) ;
+        
+        i = 0 ;
+        j = n-1 ;
+        while(i<j){
+            p = nums[i] ;
+            q = nums[j] ;
+            sum = p+q ;
+            if(target>sum)
+                i++ ;
+            else if(target<sum)
+                j-- ;
+            else if(target==sum){
+                break ;
+            }
+        }
+        
+        for(i=0;i<n;i++){
+            if(nums1[i]==p)
+                pair[0] = i ;
+            if(nums1[n-i-1]==q)
+                pair[1] = n-i-1 ;
+        }
+        return pair ;
+        
+    }
+}
+
+3rd Approach - Hash tables
+- This is an improvement of the first Approach. So there we were having two loops, where in the first loop we were iterating over all the elements in the array and in the second loop we were finding the target element in the array
+- The second loop can be eliminated using Hash table
+- Time Complexity : O(n) Space Complexity : O(n)
+
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer,Integer> hash = new HashMap<>() ;
+        int i,j, n ;
+        int[] pair = new int[2] ;
+
+        n = nums.length ;
+
+        for(i=0;i<n;i++){
+            if(hash.containsKey(target - nums[i])){
+                pair[0] = i ;
+                pair[1] = hash.get(target - nums[i]);
+                break ;
+            }
+            hash.put(nums[i],i);
+      }
+      return pair ;
+    }
+}
